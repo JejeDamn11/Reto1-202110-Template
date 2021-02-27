@@ -50,6 +50,10 @@ def initCatalog_Array():
     """
     return controller.initCatalogArray()
 
+def Load_Data(catalog):
+    #Carga los datos del archivo
+    controller.Load_Data(catalog)
+
 catalog = None
 
 """
