@@ -37,7 +37,8 @@ los mismos.
 
 # Construccion de modelos Array
 def newCatalog_Array():
-    catalog = {'title': None,
+    catalog = {'videos': None,
+               'title': None,
                'cannel_title': None,
                'trending_date': None,
                'country': None,
@@ -45,18 +46,18 @@ def newCatalog_Array():
                'likes': None,
                'dislikes': None,
                'category': None}
-    catalog['title'] = lt.newList()
-    catalog['channel_title'] = lt.newList(ARRAY_LIST,
+    catalog['videos'] = lt.newList()
+    catalog['title'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
-    catalog['trending_date'] = lt.newList(ARRAY_LIST,
+    catalog['trending_date'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
-    catalog['country'] = lt.newList(ARRAY_LIST,
+    catalog['country'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
-    catalog['views'] = lt.newList(ARRAY_LIST,
+    catalog['views'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
-    catalog['likes'] = lt.newList(ARRAY_LIST,
+    catalog['likes'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
-    catalog['dislikes'] = lt.newList(ARRAY_LIST,
+    catalog['dislikes'] = lt.newList("ARRAY_LIST",
                                     cmpfunction=None)
     catalog['category'] = lt.newList()
 #Construcción modelo linked
@@ -68,7 +69,8 @@ def newCatalog_Linked():
     los dislikes y adicionalmente el id de la categoría.
     . Retorna el catalogo inicializado.
     """
-    catalog = {'title': None,
+    catalog = {'videos': None,
+               'title': None,
                'cannel_title': None,
                'trending_date': None,
                'country': None,
@@ -76,52 +78,62 @@ def newCatalog_Linked():
                'likes': None,
                'dislikes': None,
                'id_category': None}
-    catalog['title'] = lt.newList()
-    catalog['channel_title'] = lt.newList(SINGLE_LINKED,
+    catalog['videos'] = lt.newList()
+    catalog['title'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['trending_date'] = lt.newList(SINGLE_LINKED,
+    catalog['channel_title'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['country'] = lt.newList(SINGLE_LINKED,
+    catalog['trending_date'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['views'] = lt.newList(SINGLE_LINKED,
+    catalog['country'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['likes'] = lt.newList(SINGLE_LINKED,
+    catalog['views'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['dislikes'] = lt.newList(SINGLE_LINKED,
+    catalog['likes'] = lt.newList("SINGLE_LINKED",
+                                    cmpfunction=None)
+    catalog['dislikes'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
     catalog['category'] = lt.newList()
 # Funciones para agregar informacion al catalogo
 def addVideo(catalog, videos):
     # Se adiciona el video a la lista de videos
-    lt.addLast(catalog['title'], videos)
-    title = videos['title'].split(",")
+    print(videos)
+    print("")
+    print(catalog['videos'])
+    lt.addLast(catalog['videos'], videos)
+    title = videos['channel_title'].split(",")
     for title_video in title:
-        addVideoTitle(catalog, title_video.strip(), videos)
+        addVideoChannel(catalog, channel_title.strip(), videos)
 
-def addVideoTitle(catalog, title, videos):
+def addVideoChannel(catalog, channel_title, videos):
     
     """
-    Adiciona un autor a lista de autores, la cual guarda referencias
-    a los libros de dicho autor
+    Adiciona un canal a lista de canales, la cual guarda referencias
+    a los videos de dicho canal
     """
-    video_list = catalog['title']
-    posvideo = lt.isPresent(video_list, title)
+    video_channels = catalog['channel_title']
+    posvideo = lt.isPresent(video_channels, channel_title)
     if posvideo > 0:
-        author = lt.getElement(video_list, posvideo)
+        video_channel = lt.getElement(video_channels, posvideo)
     else:
-        video_list = newVideoTitle(title)
-        lt.addLast(video_list, author)
-    lt.addLast(video_list['title'], videos)
+        video_channel = newVideoTitle(channel_title)
+        lt.addLast(video_channels, video_channel)
+    lt.addLast(video_channel['videos'], videos)
 
-def newVideoTitle(title1):
-    author = {'name': "", "books": None,  "average_rating": 0}
-    author['name'] = name
-    author['books'] = lt.newList('ARRAY_LIST')
-    return author
 # Funciones para creacion de datos
+def newChannelTitle(channel_name):
+    channel_list = {'channel_title': "", "videos": None,  "views": 0}
+    channel_list['channel_title'] = channel_name
+    author['videos'] = lt.newList('ARRAY_LIST')
+    return channel_list
 
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+# def cmpVideosByViews(videos1, videos2):
+#     if int(video1['videos']['elements'][0]['views']) < int(video2['videos']['elements'][0]['views']):
+#         return 1
+#     else:
+#         return 0

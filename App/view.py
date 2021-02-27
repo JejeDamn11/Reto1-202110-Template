@@ -66,7 +66,7 @@ while True:
         catalog = initCatalog_Linked()
         Load_Data(catalog)
         print("Cargando información de los archivos ....")
-        print(catalog)
+        print(Load_Data)
 
 
     elif int(inputs[0]) == 2:
