@@ -38,28 +38,18 @@ los mismos.
 # Construccion de modelos Array
 def newCatalog_Array():
     catalog = {'videos': None,
-               'title': None,
-               'cannel_title': None,
-               'trending_date': None,
-               'country': None,
-               'views': None,
-               'likes': None,
-               'dislikes': None,
-               'category': None}
+               'tagvideos': None,
+               'tags': None,
+               'categories': None}
     catalog['videos'] = lt.newList()
-    catalog['title'] = lt.newList("ARRAY_LIST",
+    catalog['tagvideos'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=None)
-    catalog['trending_date'] = lt.newList("ARRAY_LIST",
+    catalog['tags'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=None)
-    catalog['country'] = lt.newList("ARRAY_LIST",
+    catalog['categories'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=None)
-    catalog['views'] = lt.newList("ARRAY_LIST",
-                                    cmpfunction=None)
-    catalog['likes'] = lt.newList("ARRAY_LIST",
-                                    cmpfunction=None)
-    catalog['dislikes'] = lt.newList("ARRAY_LIST",
-                                    cmpfunction=None)
-    catalog['category'] = lt.newList()
+
+    return catalog
 #Construcción modelo linked
 def newCatalog_Linked():
     """
@@ -70,68 +60,59 @@ def newCatalog_Linked():
     . Retorna el catalogo inicializado.
     """
     catalog = {'videos': None,
-               'title': None,
-               'cannel_title': None,
-               'trending_date': None,
-               'country': None,
-               'views': None,
-               'likes': None,
-               'dislikes': None,
-               'id_category': None}
-    catalog['videos'] = lt.newList()
-    catalog['title'] = lt.newList("SINGLE_LINKED",
+               'tagvideos': None,
+               'tags': None,
+               'categories': None,
+               'country': None}
+    catalog['videos'] = lt.newList("SINGLE_LINKED",
+                                    cmpfunction=cmpvideos)
+    catalog['tagvideos'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['channel_title'] = lt.newList("SINGLE_LINKED",
+    catalog['tags'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['trending_date'] = lt.newList("SINGLE_LINKED",
+    catalog['categories'] = lt.newList("SINGLE_LINKED",
                                     cmpfunction=None)
-    catalog['country'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
-    catalog['views'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
-    catalog['likes'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
-    catalog['dislikes'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
-    catalog['category'] = lt.newList()
+
+    return catalog
 # Funciones para agregar informacion al catalogo
 def addVideo(catalog, videos):
     # Se adiciona el video a la lista de videos
-    print(videos)
-    print("")
-    print(catalog['videos'])
     lt.addLast(catalog['videos'], videos)
-    title = videos['channel_title'].split(",")
-    for title_video in title:
-        addVideoChannel(catalog, channel_title.strip(), videos)
+    country_info = videos['country'].split(",")
+    lt.addLast(video[''])
 
-def addVideoChannel(catalog, channel_title, videos):
-    
+def addVideoCountry(catalog, country_name, videos):
     """
     Adiciona un canal a lista de canales, la cual guarda referencias
     a los videos de dicho canal
     """
-    video_channels = catalog['channel_title']
-    posvideo = lt.isPresent(video_channels, channel_title)
+    country = catalog['country']
+    posvideo = lt.isPresent(country, country_name)
     if posvideo > 0:
-        video_channel = lt.getElement(video_channels, posvideo)
+        video_country = lt.getElement(country, posvideo)
     else:
-        video_channel = newVideoTitle(channel_title)
-        lt.addLast(video_channels, video_channel)
-    lt.addLast(video_channel['videos'], videos)
+        video_country = newVideoCountry(country)
+        lt.addLast(country, video_country)
+    lt.addLast(video_country['videos'], videos)
 
 # Funciones para creacion de datos
-def newChannelTitle(channel_name):
-    channel_list = {'channel_title': "", "videos": None,  "views": 0}
-    channel_list['channel_title'] = channel_name
-    author['videos'] = lt.newList('ARRAY_LIST')
-    return channel_list
+def newVideoCountry(country):
+    country_list = {'country': "", "videos": None,  "views": 0}
+    country_list['country'] = country
+    country_list['videos'] = lt.newList('ARRAY_LIST')
+    return country_list
 
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+
+def cmpvideos(country1, country2):
+    if (country1.lower() in country2['country'].lower()):
+        return 0
+    return -1
+
 # def cmpVideosByViews(videos1, videos2):
 #     if int(video1['videos']['elements'][0]['views']) < int(video2['videos']['elements'][0]['views']):
 #         return 1
