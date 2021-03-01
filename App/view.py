@@ -37,7 +37,7 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo en ARRAY_LIST o SINGLE_LINKED")
-    print("2- Cargar información en el catálogo en LINKED_LIST")
+    print("2- Crear lista de los vídeos más vistos en un país y con categoría específica")
 
 def initCatalog_Linked():
     """
@@ -69,19 +69,25 @@ while True:
             catalog = initCatalog_Linked()
             Load_Data(catalog)
             print("Cargando información de los archivos ....")
-            print(Load_Data)
+            print("Cargando información de los archivos ....")
+            print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+            print('Etiquetas cargadas: ' + str(lt.size(catalog['tagvideos'])))
+            print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+            print('Países cargados: ' + str(lt.size(catalog['country'])))
         if selection == 2:
             catalog = initCatalog_Array()
             Load_Data(catalog)
             print("Cargando información de los archivos ....")
-            print(catalog)
+            print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+            print('Etiquetas cargadas: ' + str(lt.size(catalog['tagvideos'])))
+            print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+            print(catalog['categories'])
             
 
     elif int(inputs[0]) == 2:
-        catalog = initCatalog_Array()
-        Load_Data(catalog)
-        print("Cargando información de los archivos ....")
-        print(catalog)
+        Range_videos = int(input("¿Cuántos vídeos desea enlistar?\n"))
+        country_videos = str(input("Digite el nombre del país: \n"))
+        category_videos = str(input("Digite la categoría: \n"))
 
     else:
         sys.exit(0)

@@ -26,8 +26,14 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import selectionsort as ss
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import mergesort as mg
+from DISClib.Algorithms.Sorting import quicksort as qs
+
 assert cf
 
 """
@@ -38,16 +44,16 @@ los mismos.
 # Construccion de modelos Array
 def newCatalog_Array():
     catalog = {'videos': None,
+               'country': None,
                'tagvideos': None,
-               'tags': None,
                'categories': None}
     catalog['videos'] = lt.newList()
+    catalog['country'] = lt.newList("ARRAY_LIST",
+                                    cmpfunction=cmpcountry)
     catalog['tagvideos'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=None)
-    catalog['tags'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=None)
+                                    cmpfunction=cmptags)
     catalog['categories'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=None)
+                                    cmpfunction=cmpcategories)
 
     return catalog
 #Construcción modelo linked
@@ -60,61 +66,90 @@ def newCatalog_Linked():
     . Retorna el catalogo inicializado.
     """
     catalog = {'videos': None,
+               'country': None,
                'tagvideos': None,
-               'tags': None,
-               'categories': None,
-               'country': None}
-    catalog['videos'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=cmpvideos)
+               'categories': None}
+    catalog['videos'] = lt.newList()
+    catalog['country'] = lt.newList("SINGLE_LINKED",
+                                    cmpfunction=cmpcountry)
     catalog['tagvideos'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
-    catalog['tags'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
+                                    cmpfunction=cmptags)
     catalog['categories'] = lt.newList("SINGLE_LINKED",
-                                    cmpfunction=None)
+                                    cmpfunction=cmpcategories)
 
     return catalog
 # Funciones para agregar informacion al catalogo
 def addVideo(catalog, videos):
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['videos'], videos)
-    country_info = videos['country'].split(",")
-    lt.addLast(video[''])
+    print(videos)
+    #Se adicionan los tags en la lista de tagvideos
+    tagvideo_info = videos['tags'].split("|")
+    for tag_info in tagvideo_info:
+        lt.addLast(catalog['tagvideos'], tag_info)
+    #Adiciona los países en su respectiva llave
+    country_info = videos['country']
+    lt.addLast(catalog['country'], country_info)
 
-def addVideoCountry(catalog, country_name, videos):
-    """
-    Adiciona un canal a lista de canales, la cual guarda referencias
-    a los videos de dicho canal
-    """
-    country = catalog['country']
-    posvideo = lt.isPresent(country, country_name)
-    if posvideo > 0:
-        video_country = lt.getElement(country, posvideo)
+def addCountry(catalog, n_country, video):
+    list_country = catalog['country']
+    post_country = lt.isPresent(list_country,n_country)
+    if post_country > 0:
+        country = lt.getElement(list_country, post_country)
+    else: 
+        country = newCountry(n_country)
+        lt.addLast(list_country, country)
+    lt.addLast(country['videos'], video)
+def addTagsVideo(catalog, n_tag, video):
+    videotag = catalog['tagvideos']
+    post_tagvideo = lt.isPresent(tagvideos, n_tag)
+    if post_tagvideo > 0:
+        videotag = lt.getElement(tagvideos, post_tagvideo)
     else:
-        video_country = newVideoCountry(country)
-        lt.addLast(country, video_country)
-    lt.addLast(video_country['videos'], videos)
+        videotag = newVideo_Tag(n_tag)
+        lt.addLast(tagvideos, videotag)
+    lt.addLast(video_tag['videos'], video)
 
+def addCategories(catalog, categories_videos):
+    category = NewCategories(categories_videos['name'], categories_videos['ID'])
+    lt.addLast(catalog['categories'], category)
 # Funciones para creacion de datos
-def newVideoCountry(country):
-    country_list = {'country': "", "videos": None,  "views": 0}
-    country_list['country'] = country
-    country_list['videos'] = lt.newList('ARRAY_LIST')
-    return country_list
+# Estas funciones son precisamente para hacer la creación 
+# De las llaves y sus respectivos valores (llaves vacías, la idea es crear la llave y en las funciones
+# de agregar información al catálogo se completan)
+def newCountry(n_country):
+    country = {'name': "", 'videos': None}
+    country['name'] = n_country
+    country['videos'] = lt.newList('ARRAY_LIST')
+    return country
 
-# Funciones de consulta
+def newVideo_Tag(tag_name):
+    video_tag = {'name': "", 'videos': None}
+    video_tag['name'] = tag_name
+    video_tag['videos'] = lt.newList('ARRAY_LIST')
+    return video_tag
 
+def NewCategories(name, id):
+    categories_videos = {'name': "", 'id': ""}
+    categories_videos['name'] = name
+    categories_videos['id'] = id
+    return categories_videos
 # Funciones utilizadas para comparar elementos dentro de una lista
-
-# Funciones de ordenamiento
-
-def cmpvideos(country1, country2):
+def cmpcountry(country1, country2):
     if (country1.lower() in country2['country'].lower()):
         return 0
     return -1
 
-# def cmpVideosByViews(videos1, videos2):
-#     if int(video1['videos']['elements'][0]['views']) < int(video2['videos']['elements'][0]['views']):
-#         return 1
-#     else:
-#         return 0
+def cmptags(tag1,tag2):
+    if (tag1.lower() in tag2['name'].lower()):
+        return 0
+    return -1
+
+def cmpcategories(n_category, categories_videos):
+    return (n_category == categories_videos['name'])
+
+def cmpVideosByViews(video1, video2):
+    if video1['views'] < video2['views']:
+        return True
+    return False
+# Funciones de ordenamiento

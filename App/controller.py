@@ -45,6 +45,7 @@ def Load_Data(catalog):
     estructura de datos
     """
     LoadVideos(catalog)
+    LoadCategory(catalog)
 
 def LoadVideos(catalog):
     """
@@ -56,6 +57,16 @@ def LoadVideos(catalog):
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for videos in input_file:
         model.addVideo(catalog,videos)
-# Funciones de ordenamiento
 
+def LoadCategory(catalog):
+    categoryfile = cf.data_dir + 'category-id.csv'
+    input_file = csv.DictReader(open(categoryfile, encoding='utf-8'))
+    for category in input_file:
+        model.addCategories(catalog,category)
+# Funciones de ordenamiento
+def sortVideos(catalog, size, tipo_ordenamiento):
+    """
+    Ordena los videos por views
+    """
+    return model.sortVideos(catalog, size, tipo_ordenamiento)
 # Funciones de consulta sobre el catálogo
